@@ -82,11 +82,11 @@ quality['average'].view()
 """
 .. image:: PLOT2RST.current_figure
 """
-service.view()
+#service.view()
 """
 .. image:: PLOT2RST.current_figure
 """
-tip.view()
+#tip.view()
 """
 .. image:: PLOT2RST.current_figure
 
@@ -98,7 +98,7 @@ Now, to make these triangles useful, we define the *fuzzy relationship*
 between input and output variables. For the purposes of our example, consider
 three simple rules:
 
-1. If the food is poor OR the service is poor, then the tip will be low
+1. If the food is poor AND the service is poor, then the tip will be low
 2. If the service is average, then the tip will be medium
 3. If the food is good OR the service is good, then the tip will be high.
 
@@ -107,7 +107,7 @@ imprecise rules into a defined, actionable tip is a challenge. This is the
 kind of task at which fuzzy logic excels.
 """
 
-rule1 = ctrl.Rule(quality['poor'] | service['poor'], tip['low'])
+rule1 = ctrl.Rule(quality['poor'] & service['poor'], tip['low'])
 rule2 = ctrl.Rule(service['average'], tip['medium'])
 rule3 = ctrl.Rule(service['good'] | quality['good'], tip['high'])
 
@@ -143,8 +143,8 @@ and the service 9.8 of 10.
 """
 # Pass inputs to the ControlSystem using Antecedent labels with Pythonic API
 # Note: if you like passing many inputs all at once, use .inputs(dict_of_data)
-tipping.input['quality'] = 6.5
-tipping.input['service'] = 9.8
+tipping.input['quality'] = 9
+tipping.input['service'] = 2
 
 # Crunch the numbers
 tipping.compute()
@@ -153,6 +153,8 @@ tipping.compute()
 Once computed, we can view the result as well as visualize it.
 """
 print (tipping.output['tip'])
+quality.view(sim=tipping)
+service.view(sim=tipping)
 tip.view(sim=tipping)
 input("press ANY key to continue...")
 
